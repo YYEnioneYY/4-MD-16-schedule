@@ -1,16 +1,58 @@
+import { useState } from 'react';
+
+import { format } from 'date-fns';
+import { ru } from 'date-fns/locale';
+
+import {
+  getInitialScheduleDate,
+} from '@/entities/schedule';
+
+import {
+  WeekNavigation,
+} from '@/features/week-navigation';
+
+import {
+  DaySchedule,
+} from '@/widgets/day-schedule';
+
+import {
+  getCurrentDateTime,
+} from '@/shared/config/date-time';
+
+import {
+  NextLesson,
+} from '@/widgets/next-lesson';
+
+import {
+  ScheduleCalendar,
+} from '@/widgets/schedule-calendar';
+
+import {
+  WeekSummaryWidget,
+} from '@/widgets/week-summary';
+
 export function SchedulePage() {
-  const currentDate = new Intl.DateTimeFormat('ru-RU', {
-    day: 'numeric',
-    month: 'long',
-    weekday: 'long',
-  }).format(new Date());
+  const [selectedDate, setSelectedDate] =
+  useState<Date>(() =>
+    getInitialScheduleDate(
+      getCurrentDateTime(),
+    ),
+  );
+
+  const formattedSelectedDate = format(
+    selectedDate,
+    'd MMMM, EEEE',
+    {
+      locale: ru,
+    },
+  );
 
   return (
     <main className="min-h-screen bg-[#f7f8fc] p-4 text-slate-900 sm:p-6 lg:p-10">
       <div className="mx-auto max-w-7xl">
         <header className="mb-8">
           <span className="mb-4 inline-flex rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600">
-            ИВТ-24-1
+            4-МД-16
           </span>
 
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
@@ -18,40 +60,33 @@ export function SchedulePage() {
           </h1>
 
           <p className="mt-2 capitalize text-slate-500">
-            Сегодня, {currentDate}
+            {formattedSelectedDate}
           </p>
         </header>
 
-        <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-sm font-medium text-indigo-600">
-                Чётная неделя
-              </p>
+        <WeekNavigation
+          selectedDate={selectedDate}
+          onDateChange={setSelectedDate}
+        />
 
-              <h2 className="mt-1 text-xl font-semibold">
-                Занятия на сегодня
-              </h2>
-            </div>
+        <div className="grid gap-x-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+          <DaySchedule
+            selectedDate={selectedDate}
+          />
 
-            <button
-              type="button"
-              className="rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
-            >
-              Выбрать дату
-            </button>
+          <div className="mt-6 space-y-6 xl:sticky xl:top-6 xl:self-start">
+            <NextLesson />
+          
+            <ScheduleCalendar
+              selectedDate={selectedDate}
+              onDateChange={setSelectedDate}
+            />
+          
+            <WeekSummaryWidget
+              selectedDate={selectedDate}
+            />
           </div>
-
-          <div className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-            <p className="font-medium text-slate-700">
-              Здесь скоро появится расписание
-            </p>
-
-            <p className="mt-2 text-sm text-slate-500">
-              Tailwind CSS успешно подключён
-            </p>
-          </div>
-        </section>
+        </div>
       </div>
     </main>
   );
