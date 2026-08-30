@@ -2,7 +2,7 @@
  * true — используем тестовую дату;
  * false — используем реальную дату устройства.
  */
-const USE_MOCK_DATE_TIME = true;
+const USE_MOCK_DATE_TIME = false;
 
 const MOCK_DATE_TIME = new Date(
   2026,

@@ -84,10 +84,6 @@ export default defineConfig({
           '**/*.{js,css,html,ico,png,svg,woff,woff2}',
         ],
       },
-
-      devOptions: {
-        enabled: true,
-      },
     }),
   ],
 
