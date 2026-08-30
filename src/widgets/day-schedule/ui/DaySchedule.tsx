@@ -17,9 +17,14 @@ import {
   getLessonsForDate,
   LessonCard,
   type GroupScheduleResponse,
+  type ScheduleLesson,
 } from '@/entities/schedule';
 
 import { useCurrentTime } from '@/shared/lib/hooks/use-current-time';
+
+import {
+  LessonDetailsModal,
+} from '@/features/lesson-details';
 
 interface DayScheduleProps {
   selectedDate: Date;
@@ -65,6 +70,13 @@ export function DaySchedule({
     useState<string | null>(null);
 
   const currentTime = useCurrentTime();
+
+  const [
+    selectedLesson,
+    setSelectedLesson,
+  ] = useState<ScheduleLesson | null>(
+    null,
+  );
 
   useEffect(() => {
     let isMounted = true;
@@ -227,12 +239,25 @@ export function DaySchedule({
                   lesson={lesson}
                   selectedDate={selectedDate}
                   currentTime={currentTime}
+                  onClick={() => {
+                    setSelectedLesson(lesson);
+                  }}
                 />
               </div>
             );
           })}
         </div>
       )}
+
+      <LessonDetailsModal
+        lesson={selectedLesson}
+        selectedDate={selectedDate}
+        currentTime={currentTime}
+        isOpen={selectedLesson !== null}
+        onClose={() => {
+          setSelectedLesson(null);
+        }}
+      />
     </section>
   );
 }

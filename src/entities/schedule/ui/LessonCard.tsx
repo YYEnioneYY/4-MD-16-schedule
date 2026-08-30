@@ -20,6 +20,7 @@ interface LessonCardProps {
   lesson: ScheduleLesson;
   selectedDate: Date;
   currentTime: Date;
+  onClick: () => void;
 }
 
 interface LessonStyle {
@@ -63,6 +64,7 @@ export function LessonCard({
   lesson,
   selectedDate,
   currentTime,
+  onClick,
 }: LessonCardProps) {
   const styles =
     LESSON_STYLES[lesson.lessonType];
@@ -102,9 +104,14 @@ export function LessonCard({
       : MapPin;
 
   return (
-    <article
+    <button
+      type="button"
+      onClick={onClick}
+      aria-haspopup="dialog"
+      aria-label={`Открыть подробности пары ${lesson.subject.name}`}
       className={[
-        'relative overflow-hidden rounded-2xl border border-l-4 border-slate-200 bg-white p-4 shadow-sm transition sm:p-5',
+        'relative w-full overflow-hidden rounded-2xl border border-l-4 border-slate-200 bg-white p-4 text-left shadow-sm transition sm:p-5',
+        'focus:outline-none focus:ring-4 focus:ring-indigo-100',
         styles.border,
         isFinished
           ? 'opacity-60'
@@ -201,6 +208,6 @@ export function LessonCard({
           </div>
         </div>
       )}
-    </article>
+    </button>
   );
 }

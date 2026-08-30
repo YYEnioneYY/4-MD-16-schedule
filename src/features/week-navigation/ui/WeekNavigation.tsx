@@ -20,6 +20,10 @@ import {
 } from '@/entities/schedule';
 
 import {
+  CalendarDays,
+} from 'lucide-react';
+
+import {
   getCurrentDateTime,
 } from '@/shared/config/date-time';
 
@@ -36,10 +40,6 @@ const WEEKDAY_SHORT_NAMES = [
 interface WeekNavigationProps {
   selectedDate: Date;
   onDateChange: (date: Date) => void;
-}
-
-function capitalize(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 function formatWeekRange(
@@ -65,6 +65,22 @@ export function WeekNavigation({
     getCurrentDateTime(),
   );
 
+  const isTodaySelected = isSameDay(
+    selectedDate,
+    today,
+  );
+  
+  const isTodayAvailable =
+    isDateInsideSemester(today);
+  
+  const handleTodayClick = () => {
+    if (!isTodayAvailable) {
+      return;
+    }
+  
+    onDateChange(today);
+  };
+  
   const weekStart = startOfWeek(selectedDate, {
     weekStartsOn: 1,
   });
@@ -149,21 +165,51 @@ export function WeekNavigation({
           </button>
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl bg-indigo-50 px-4 py-3">
-          <span className="size-3 rounded-full bg-indigo-600" />
-
-          <div>
-            <p className="font-semibold text-indigo-950">
-              {academicWeek.parity === 'ODD'
-                ? 'Нечётная неделя'
-                : 'Чётная неделя'}
-            </p>
-
-            <p className="text-sm text-indigo-600">
-              {academicWeek.weekType === 'NUMERATOR'
-                ? 'Числитель'
-                : 'Знаменатель'}
-            </p>
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <button
+            type="button"
+            onClick={handleTodayClick}
+            disabled={!isTodayAvailable}
+            aria-pressed={isTodaySelected}
+            title={
+              isTodayAvailable
+                ? 'Вернуться к сегодняшнему дню'
+                : 'Сегодняшняя дата находится вне семестра'
+            }
+            className={[
+              'inline-flex h-12 items-center justify-center gap-2 rounded-2xl border px-4 text-sm font-semibold transition',
+              isTodaySelected
+                ? 'border-indigo-600 bg-indigo-600 text-white shadow-md shadow-indigo-100'
+                : 'border-slate-200 bg-white text-slate-700 hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600',
+              !isTodayAvailable
+                ? 'cursor-not-allowed opacity-40'
+                : '',
+            ].join(' ')}
+          >
+            <CalendarDays
+              size={17}
+              aria-hidden="true"
+            />
+        
+            Сегодня
+          </button>
+        
+          <div className="flex items-center gap-3 rounded-2xl bg-indigo-50 px-4 py-3">
+            <span className="size-3 rounded-full bg-indigo-600" />
+        
+            <div>
+              <p className="font-semibold text-indigo-950">
+                {academicWeek.parity === 'ODD'
+                  ? 'Нечётная неделя'
+                  : 'Чётная неделя'}
+              </p>
+                
+              <p className="text-sm text-indigo-600">
+                {academicWeek.weekType === 'NUMERATOR'
+                  ? 'Числитель'
+                  : 'Знаменатель'}
+              </p>
+            </div>
           </div>
         </div>
       </div>
