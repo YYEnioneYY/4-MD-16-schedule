@@ -26,6 +26,10 @@ import {
   LessonDetailsModal,
 } from '@/features/lesson-details';
 
+import {
+  ShareLessonButton,
+} from '@/features/share-lesson';
+
 interface DayScheduleProps {
   selectedDate: Date;
 }
@@ -254,6 +258,14 @@ export function DaySchedule({
         selectedDate={selectedDate}
         currentTime={currentTime}
         isOpen={selectedLesson !== null}
+        footerAction={
+          selectedLesson ? (
+            <ShareLessonButton
+              lesson={selectedLesson}
+              selectedDate={selectedDate}
+            />
+          ) : undefined
+        }
         onClose={() => {
           setSelectedLesson(null);
         }}

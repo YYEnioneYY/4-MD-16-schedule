@@ -3,6 +3,10 @@ import {
   useRef,
 } from 'react';
 
+import type {
+  ReactNode,
+} from 'react';
+
 import { createPortal } from 'react-dom';
 
 import {
@@ -37,6 +41,7 @@ interface LessonDetailsModalProps {
   selectedDate: Date;
   currentTime: Date;
   isOpen: boolean;
+  footerAction?: ReactNode;
   onClose: () => void;
 }
 
@@ -125,6 +130,7 @@ export function LessonDetailsModal({
   selectedDate,
   currentTime,
   isOpen,
+  footerAction,
   onClose,
 }: LessonDetailsModalProps) {
   const closeButtonRef =
@@ -551,13 +557,17 @@ export function LessonDetailsModal({
         </div>
 
         <footer className="border-t border-slate-100 p-5 sm:px-6">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
-          >
-            Закрыть
-          </button>
+          <div className="flex flex-col-reverse gap-3 sm:flex-row">
+            {footerAction}
+                      
+            <button
+              type="button"
+              onClick={onClose}
+              className="w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-200"
+            >
+              Закрыть
+            </button>
+          </div>
         </footer>
       </section>
     </div>,

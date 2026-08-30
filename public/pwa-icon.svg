@@ -1,0 +1,52 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512"
+>
+  <rect
+    width="512"
+    height="512"
+    rx="112"
+    fill="#4f46e5"
+  />
+
+  <rect
+    x="104"
+    y="120"
+    width="304"
+    height="288"
+    rx="54"
+    fill="#ffffff"
+  />
+
+  <path
+    d="M104 184C104 148.654 132.654 120 168 120H344C379.346 120 408 148.654 408 184V202H104V184Z"
+    fill="#c7d2fe"
+  />
+
+  <rect
+    x="166"
+    y="88"
+    width="32"
+    height="82"
+    rx="16"
+    fill="#ffffff"
+  />
+
+  <rect
+    x="314"
+    y="88"
+    width="32"
+    height="82"
+    rx="16"
+    fill="#ffffff"
+  />
+
+  <path
+    d="M181 297L232 347L337 242"
+    fill="none"
+    stroke="#4f46e5"
+    stroke-width="34"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
